@@ -1,0 +1,26 @@
+find_package(PkgConfig)
+pkg_search_module(FREEGLUT_PKG QUIET freeglut)
+
+find_path(FREEGLUT_INCLUDE_DIR /GL/freeglut.h
+	HINT ${FREEGLUT_PKG_INCLUDE_DIRS})
+
+find_library(FREEGLUT_LIBRARY freeglut
+	HINT ${FREEGLUT_PKG_LIBRARY_DIRS})
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(FREEGLUT
+	FOUND_VAR FREEGLUT_FOUND
+	REQUIRED_VARS
+		FREEGLUT_INCLUDE_DIR
+		FREEGLUT_LIBRARY
+	FAIL_MESSAGE "FreeGLUT not found")
+
+if(NOT FREEGLUT_FOUND)
+	message(FATAL_ERROR "FreeGLUT not found")
+endif()
+
+mark_as_advanced(FREEGLUT_INCLUDE_DIR FREEGLUT_LIBRARY)
+
+set(FREEGLUT_INCLUDE_DIRS ${FREEGLUT_INCLUDE_DIR})
+set(FREEGLUT_LIBRARIES ${FREEGLUT_LIBRARY})
+set(FREEGLUT_DEFINITIONS "-DFREEGLUT_LIB_PRAGMAS=0")
